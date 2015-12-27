@@ -15,6 +15,9 @@
           <button v-on:click="undo">
             undo
           </button>
+          <button v-on:click="bounce">
+            bounce
+          </button>
 
           <div class='rect'>
             {{logo}}
@@ -42,6 +45,11 @@
               this.transitions["ex"].rollback().then(function() {
                 _this.logo = "undo finished";
               });
+            },
+            bounce: function(){
+                var play = this.transitions["ex"].play;
+                var rollback = this.transitions["ex"].rollback;
+                play().then(rollback);
             }
           }
         })
