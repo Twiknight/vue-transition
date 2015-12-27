@@ -7,7 +7,7 @@ It allows you to trigger a transition whenever you like.
 
     npm install vue-transition
 
- Or just include the file use a `<script>` tag.
+ Or just include the file using a `<script>` tag.
 
 ## Usage
 HTML:
