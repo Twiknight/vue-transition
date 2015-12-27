@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>vue-transition example</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.13/vue.min.js" charset="utf-8"></script>
+        <link rel="stylesheet" href="example.css" media="screen" title="no title" charset="utf-8">
+        <script src="../vue-transition.js" charset="utf-8"></script>
+    </head>
+    <body>
+        <div id="demo">
+          <button v-on:click="play">
+            play
+          </button>
+          <button v-on:click="undo">
+            undo
+          </button>
+
+          <div class='rect'>
+            {{logo}}
+            <transition id="ex" options="all 3s ease" source="anime"></transition>
+          </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+        new Vue({
+          el: "#demo",
+          data() {
+            return {
+              logo: "hello"
+            }
+          },
+          methods: {
+            play: function() {
+              var _this = this;
+              this.transitions["ex"].play().then(function() {
+                _this.logo = "play finished";
+              });
+            },
+            undo: function() {
+              var _this = this;
+              this.transitions["ex"].rollback().then(function() {
+                _this.logo = "undo finished";
+              });
+            }
+          }
+        })
+    </script>
+</html>
