@@ -3,13 +3,18 @@
   "version": "0.0.1",
   "description": "A transition component for Vue",
   "main": "vue-transition.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "repository":{
+    "type":"git",
+    "url":"https://github.com/Twiknight/vue-transition"
   },
   "keywords": [
     "vue",
     "transition"
   ],
   "author": "Twiknight",
-  "license": "MIT"
+  "license": "MIT",
+  "bugs":{
+      "url":"https://github.com/Twiknight/vue-transition/issues"
+  },
+  "homepage":"https://github.com/Twiknight/vue-transition"
 }
