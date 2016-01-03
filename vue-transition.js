@@ -1,5 +1,5 @@
 ;(function(){
-    
+
 
     function install(Vue){
 		var trans = Vue.extend({
@@ -53,8 +53,47 @@
 					vm.$parent.transitions = vm.$parent.transitions || {};
 					vm.$parent.transitions[vm.id] = vm;
 				}
-			});			
+			});
+
+        var anime = Vue.extend({
+            template:'<element></element>',
+            props:['id','source'],
+            methods:{
+                play:function(){
+                    var vm = this;
+                    var el = vm.$el.parentElement;
+
+                    if(!vm.regx.test(el.className)){
+                        el.className +=" "+vm.source;
+                    }
+                    el.style['animation-play-state'] = 'running';
+                },
+                pause:function() {
+                    var vm = this;
+                    var el = vm.$el.parentElement;
+                    el.style['animation-play-state'] = 'paused';
+                }
+            },
+            created(){
+                this.regx = new RegExp('\\b'+this.source+'\\b');
+            },
+            ready(){
+                var vm = this;
+                var el = vm.$el.parentElement;
+
+                el.addEventListener('animationend', function(){
+                    vm.$emit('animationend');
+                });
+                el.addEventListener('webkitAnimationEnd', function(){
+                    vm.$emit('webkitAnimationEnd');
+                });
+                vm.$parent.animations = vm.$parent.animations || {};
+                vm.$parent.animations[vm.id] = vm;
+            }
+        });
+
         Vue.component('transition',trans);
+        Vue.component('animation',anime);
     }
 
     if (typeof exports == "object") {

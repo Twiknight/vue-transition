@@ -1,0 +1,14 @@
+.text{
+    width: 200px;
+    height: 50px;
+}
+
+.anime1{
+    animation: 1s linear 0s infinite alternate bounce;
+}
+
+@keyframes bounce{
+    to{
+        transform: scale(2);
+    }
+}
