@@ -1,57 +1,57 @@
 ;(function(){
 
     function install(Vue){
-		var trans = Vue.extend({
-				template: '<element></element>',
-				props: ['id','options','source'],
-				methods: {
-					play: function(options){
-						var vm = this;
+        var trans = Vue.extend({
+                template: '<element></element>',
+                props: ['id','options','source'],
+                methods: {
+                    play: function(options){
+                        var vm = this;
 
-						var opts = options || vm.options;
-						var el = vm.$el.parentElement;
+                        var opts = options || vm.options;
+                        var el = vm.$el.parentElement;
 
                         if(!vm.regx.test(el.className)){
                             el.style.transition = opts;
                             el.className += " "+vm.source;
                         }
-						return new Promise(function(resolve, reject) {
-							vm.$once('transitionend', function(){
+                        return new Promise(function(resolve, reject) {
+                            vm.$once('transitionend', function(){
                                 setTimeout(resolve,0);
                             });
-						});
-					},
-					rollback:function(options){
-						var vm = this;
-						var opts = options || vm.options;
-						var el = vm.$el.parentElement;
+                        });
+                    },
+                    rollback:function(options){
+                        var vm = this;
+                        var opts = options || vm.options;
+                        var el = vm.$el.parentElement;
 
                         if(vm.regx.test(el.className)){
                             el.style.transition = opts;
                             el.className = el.className.replace(vm.regx,'');
                         }
 
-						return new Promise(function(resolve, reject) {
+                        return new Promise(function(resolve, reject) {
                             vm.$once('transitionend', function(){
                                 setTimeout(resolve,0);
                             });
-						});
-					}
-				},
-				created(){
-					this.regx = new RegExp('\\b'+this.source+'\\b');
-				},
-				ready(){
-					var vm = this;
-					var el = vm.$el.parentElement;
+                        });
+                    }
+                },
+                created(){
+                    this.regx = new RegExp('\\b'+this.source+'\\b');
+                },
+                ready(){
+                    var vm = this;
+                    var el = vm.$el.parentElement;
 
-					el.addEventListener('transitionend', function(){
-						vm.$dispatch('transitionend',vm.id);
-					})
-					vm.$parent.transitions = vm.$parent.transitions || {};
-					vm.$parent.transitions[vm.id] = vm;
-				}
-			});
+                    el.addEventListener('transitionend', function(){
+                        vm.$dispatch('transitionend',vm.id);
+                    })
+                    vm.$parent.transitions = vm.$parent.transitions || {};
+                    vm.$parent.transitions[vm.id] = vm;
+                }
+            });
 
         var anime = Vue.extend({
             template:'<element></element>',
