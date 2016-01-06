@@ -4,11 +4,14 @@
 }
 
 .anime1{
-    animation: 1s linear 0s infinite alternate bounce;
+    animation: bounce 1s linear 0s 2 alternate ;
 }
 
 @keyframes bounce{
+    from{
+        font-size: 1em;
+    }
     to{
-        transform: scale(2);
+        font-size: 3em;
     }
 }

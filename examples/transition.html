@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>transition example</title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.13/vue.min.js" charset="utf-8"></script>
+        <script src="https://cdn.jsdelivr.net/vue/1.0.13/vue.min.js"></script>
         <link rel="stylesheet" href="transition.css" media="screen" title="no title" charset="utf-8">
         <script src="../vue-transition.js" charset="utf-8"></script>
     </head>
@@ -49,9 +49,14 @@
             bounce: function(){
                 var play = this.transitions["ex"].play;
                 var rollback = this.transitions["ex"].rollback;
-                play().then(rollback);
+                play().then(rollback).then(play);
             }
-          }
+        },
+        events:{
+            'transitionend':function(id){
+                console.log("transition end : "+id);
+            }
+        }
         })
     </script>
 </html>

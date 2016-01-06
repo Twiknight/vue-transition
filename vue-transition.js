@@ -1,6 +1,5 @@
 ;(function(){
 
-
     function install(Vue){
 		var trans = Vue.extend({
 				template: '<element></element>',
@@ -12,15 +11,14 @@
 						var opts = options || vm.options;
 						var el = vm.$el.parentElement;
 
+                        if(!vm.regx.test(el.className)){
+                            el.style.transition = opts;
+                            el.className += " "+vm.source;
+                        }
 						return new Promise(function(resolve, reject) {
-							if(vm.regx.test(el.className)){
-								reject("Target class already exist.");
-							}else{
-								el.style.transition = opts;
-								el.className += " "+vm.source;
-
-								vm.$once('transitionend', resolve);
-							}
+							vm.$once('transitionend', function(){
+                                setTimeout(resolve,0);
+                            });
 						});
 					},
 					rollback:function(options){
@@ -28,15 +26,15 @@
 						var opts = options || vm.options;
 						var el = vm.$el.parentElement;
 
-						return new Promise(function(resolve, reject) {
-							if(vm.regx.test(el.className)){
-								el.style.transition = opts;
-								el.className = el.className.replace(vm.regx,'');
+                        if(vm.regx.test(el.className)){
+                            el.style.transition = opts;
+                            el.className = el.className.replace(vm.regx,'');
+                        }
 
-								vm.$once('transitionend', resolve);
-							}else{
-								reject("This transition haven't been played.");
-							}
+						return new Promise(function(resolve, reject) {
+                            vm.$once('transitionend', function(){
+                                setTimeout(resolve,0);
+                            });
 						});
 					}
 				},
@@ -48,7 +46,7 @@
 					var el = vm.$el.parentElement;
 
 					el.addEventListener('transitionend', function(){
-						vm.$emit('transitionend');
+						vm.$dispatch('transitionend',vm.id);
 					})
 					vm.$parent.transitions = vm.$parent.transitions || {};
 					vm.$parent.transitions[vm.id] = vm;
@@ -66,12 +64,48 @@
                     if(!vm.regx.test(el.className)){
                         el.className +=" "+vm.source;
                     }
+
                     el.style['animation-play-state'] = 'running';
+                    el.style['-webkit-animation-play-state'] = 'running';
+
+                    return new Promise(function(resolve, reject) {
+                        vm.$once('animationend', function(){
+                            el.style['animation-play-state'] = 'paused';
+                            el.style['-webkit-animation-play-state'] = 'paused';
+                            resolve();
+                        });
+                    });
                 },
                 pause:function() {
                     var vm = this;
                     var el = vm.$el.parentElement;
                     el.style['animation-play-state'] = 'paused';
+                    el.style['-webkit-animation-play-state'] = 'paused';
+                    return new Promise(function(resolve, reject) {
+                        resolve();
+                    });
+                },
+                restart:function(){
+                    var vm = this;
+                    var el = vm.$el.parentElement;
+
+                    if(!vm.regx.test(el.className)){
+                        el.className +=" "+vm.source;
+                    }
+                    else{
+                        el.className = el.className.replace(vm.regx,'');
+                        setTimeout(function(){
+                            el.className +=" "+vm.source;
+                            el.style['animation-play-state'] = 'running';
+                            el.style['-webkit-animation-play-state'] = 'running';
+                        },1);
+                    }
+
+                    return new Promise(function(resolve, reject) {
+                        vm.$once('animationend', function(){
+                            resolve();
+                        });
+                    });
                 }
             },
             created(){
@@ -81,12 +115,31 @@
                 var vm = this;
                 var el = vm.$el.parentElement;
 
-                el.addEventListener('animationend', function(){
-                    vm.$emit('animationend');
+                [
+                    'animationstart',
+                    'webkitAnimationStart'
+                ].map(function(ev){
+                    el.addEventListener(ev, function(){
+                        vm.$dispatch('animationstart',vm.id);
+                    });
                 });
-                el.addEventListener('webkitAnimationEnd', function(){
-                    vm.$emit('webkitAnimationEnd');
+                [
+                    'animationend',
+                    'webkitAnimationEnd'
+                ].map(function(ev){
+                    el.addEventListener(ev, function(){
+                        vm.$dispatch('animationend',vm.id);
+                    });
                 });
+                [
+                    'animationiteration',
+                    'webkitAnimationIteration'
+                ].map(function(ev){
+                    el.addEventListener(ev, function(){
+                        vm.$dispatch('animationiteration',vm.id);
+                    });
+                });
+
                 vm.$parent.animations = vm.$parent.animations || {};
                 vm.$parent.animations[vm.id] = vm;
             }

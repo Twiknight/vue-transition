@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>animation example</title>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.13/vue.min.js" charset="utf-8"></script>
+        <script src="https://cdn.jsdelivr.net/vue/1.0.13/vue.min.js"></script>
         <link rel="stylesheet" href="animation.css" media="screen" title="no title" charset="utf-8">
         <script src="../vue-transition.js" charset="utf-8"></script>
     </head>
@@ -11,9 +11,10 @@
         <div id="demo">
             <button v-on:click='play'>play</button>
             <button v-on:click="pause">pause</button>
+            <button v-on:click="replay">replay</button>
             <div class="text">
                 <span>
-                    hello vue!
+                    {{msg}}
                     <animation id="anime1" source="anime1"></animation>
                 </span>
             </div>
@@ -21,12 +22,20 @@
         <script type="text/javascript">
             new Vue({
                 el:"#demo",
+                data:function(){
+                    return{
+                        msg:"hello!"
+                    }
+                },
                 methods:{
                     play:function(){
                         this.animations["anime1"].play();
                     },
                     pause:function () {
                         this.animations["anime1"].pause();
+                    },
+                    replay:function(){
+                        this.animations["anime1"].restart();
                     }
                 }
             });
