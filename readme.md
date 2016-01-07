@@ -75,12 +75,13 @@ This function will pause the play animation by setting `aniamtion-paly-state` to
   So if you emit multiple animations on one element at the same time,
   the `pause`function will pause them all.
 
-The returned Promise will directly resolve.
+  The returned Promise will directly resolve.
 
 * `aniamtion.restrat->Promise`:
 This function will stop the current animation and then restart it.
 
   Also, you can use it to restart a animation that is specified to work only once.
+  
   The returned Promise will resolve on  `animationend` as `aniamtion.play`.
 
 * Events:
