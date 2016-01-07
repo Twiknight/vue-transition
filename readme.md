@@ -43,5 +43,51 @@ Javascript:
     Vue.use(require('Vue-transiton'));
     /*...your code here...*/
 
+## API reference
+
+### Transitions
+* `transition.play(options->string)->Promise` :
+This function will apply the transition by adding the source class
+you set .
+
+ `options` : the options string of transition, like`"all 0.5s ease"` .
+ By default , the options used will be what you set on the transition component.
+
+ The function returns a Promise that will resolve on the html element event `transitionend`.
+ If you don't like the Promise styled API,
+ Just listen to the `transitionend` __Vue__ event in the parent component.
+
+* `transtion.rollback(options->string)->Promise`:
+This function works just like `transtion.play`.
+
+  The only difference is this one removes the source class you set to make a rollback effect.
+
+
+### Animations
+* `animation.play->Promise`:
+This function will apply the animation by adding the source animation class you set or continue a paused animation.
+
+  The returned Promise will resolve on html event `animationend`or the same one named with `-webkit`.
+  And it will dispatch a Vue event `animationend`(No  -webkit here) together with its `id`.
+
+* `aniamtion.pause->Promise`:
+This function will pause the play animation by setting `aniamtion-paly-state` to `"paused"`.
+  So if you emit multiple animations on one element at the same time,
+  the `pause`function will pause them all.
+
+The returned Promise will directly resolve.
+
+* `aniamtion.restrat->Promise`:
+This function will stop the current animation and then restart it.
+
+  Also, you can use it to restart a animation that is specified to work only once.
+
+  The returned Promise will resolve on  `animationend` as `aniamtion.play`.
+
+* Events:
+CSS animations emit three event: `animationstart`,`animationend`,`animationiteration`.
+All these will be wrapped as Vue events with the same name.
+
+  You can listen to them in any of the parent components, as they'll be dispatched upwards.
 ## License
 MIT
