@@ -82,7 +82,7 @@ This function will stop the current animation and then restart it.
 
   Also, you can use it to restart a animation that is specified to work only once.
 
-  The returned Promise will resolve on  `animationend` as `aniamtion.play`.
+   The returned Promise will resolve on  `animationend` as `aniamtion.play`.
 
 * Events:
 CSS animations emit three event: `animationstart`,`animationend`,`animationiteration`.
