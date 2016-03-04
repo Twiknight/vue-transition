@@ -57,8 +57,8 @@ you set .
  If you don't like the Promise styled API,
  Just listen to the `transitionend` __Vue__ event in the parent component.
 
-* `transtion.rollback(options->string)->Promise`:
-This function works just like `transtion.play`.
+* `transition.rollback(options->string)->Promise`:
+This function works just like `transition.play`.
 
   The only difference is this one removes the source class you set to make a rollback effect.
 
@@ -70,14 +70,14 @@ This function will apply the animation by adding the source animation class you 
   The returned Promise will resolve on html event `animationend`or the same one named with `-webkit`.
   And it will dispatch a Vue event `animationend`(No  -webkit here) together with its `id`.
 
-* `aniamtion.pause->Promise`:
-This function will pause the play animation by setting `aniamtion-paly-state` to `"paused"`.
+* `animation.pause->Promise`:
+This function will pause the play animation by setting `animation-play-state` to `"paused"`.
   So if you emit multiple animations on one element at the same time,
   the `pause`function will pause them all.
 
   The returned Promise will directly resolve.
 
-* `aniamtion.restrat->Promise`:
+* `animation.restrat->Promise`:
 This function will stop the current animation and then restart it.
 
   Also, you can use it to restart a animation that is specified to work only once.
