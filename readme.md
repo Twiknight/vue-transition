@@ -11,38 +11,38 @@ It allows you to trigger a transition whenever you like.
 
 ## Usage
 HTML:
-
-    <div id="demo">
-       <transition id="trans" options="all 0.5s ease" source="alert"></transition>
-    </div>
-
+```html
+<div id="demo">
+   <transition id="trans" options="all 0.5s ease" source="alert"></transition>
+</div>
+```
 CSS:
-
-    .alert{
-        background-color:red;
-    }
-
+```css
+.alert{
+    background-color:red;
+}
+```
 Javascript:
-
-    new Vue("#demo",{
-        /*...your code here...*/
-        methods{
-            play:function(){
-                this.transitions["trans"].play()
-                                                    .then(/*...your code here...*/);
-            },
-            rollback:function(){
-                this.transitions["trans"].rollback()
-                                                    .then(/*...your code here...*/);
-            }
-        }
-    })
-
-## CommonJs
-
-    Vue.use(require('Vue-transiton'));
+```javascript
+new Vue("#demo",{
     /*...your code here...*/
-
+    methods{
+        play:function(){
+            this.transitions["trans"].play()
+                                    .then(/*...your code here...*/);
+        },
+        rollback:function(){
+            this.transitions["trans"].rollback()
+                                        .then(/*...your code here...*/);
+        }
+    }
+})
+```
+## CommonJs
+```javascript
+Vue.use(require('Vue-transiton'));
+/*...your code here...*/
+```
 ## API reference
 
 ### Transitions
